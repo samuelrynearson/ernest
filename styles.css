@@ -1,0 +1,119 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	background-color: #fbfbfb;
+}
+
+.container {
+	height: 100vh;
+	scroll-snap-type: y mandatory;
+	overflow-y: scroll;
+	scroll-behavior: smooth;
+	scroll-snap-stop: always;
+}
+
+.box {
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	font-size: 50px;
+	font-weight: bold;
+	text-align: center;
+	scroll-snap-align: start;
+	position: relative;
+}
+
+.box1 {
+	/* background-color: #ff0080; */
+}
+
+.box2 {
+	/* background-color: #ff8c00; */
+}
+
+.box3 {
+	/* background-color: #ffff00; */
+}
+
+.box4 {
+	/* background-color: #008000; */
+}
+
+.box5 {
+	/* background-color: #0000ff; */
+}
+
+
+img {
+	height: 800px;
+
+}
+
+/* slide show */
+
+.slideshow-container {
+	max-width: 1000px;
+	position: relative;
+	margin: auto;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+	flex-direction: column;
+	
+  }
+
+  .slide {
+	display: none;
+	position: relative;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	transition: transform 0.5s ease-in-out;
+  }
+
+  @media (max-width: 768px) {
+	.slide {
+	  width: 100%;
+	  height: auto;
+	}
+  }
+
+  .slide img {`
+	width: 100%;
+	height: 80vh;
+  }
+
+  .caption {
+    text-align: center;
+    color: #595959;
+    font-size: calc(10px + .1vw); /* Adjust the base font size and vw scaling as needed */
+    z-index: 999; /* Ensure caption is above slides */
+	font-family: Arial, Helvetica, sans-serif;
+	text-rendering: optimizeLegibility;
+}
+
+.title {
+	font-weight: 600;
+}
+
+.description {
+	font-weight: 300;
+	font-size: calc(8px + .1vw); /* Adjust the base font size and vw scaling as needed */
+
+}
+
+.hello {
+	font-weight: 600;
+	font-size: calc(10px + .1vw); /* Adjust the base font size and vw scaling as needed */
+	padding-top: 25px;
+}
+
+#ball {
+	width: 250px;
+	height: auto;
+}
