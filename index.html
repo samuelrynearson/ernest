@@ -8,7 +8,7 @@
     <meta property="og:title" content="Ernest Studio | Creative Direction & CGI">
     <meta property="og:description" content="Ernest is a global creative direction and CGI studio. For brands, cultural institutions, and artists. We create still and moving images, design spaces, craft campaigns, and manufacture objects.">
     <meta property="og:type" content="website">
-    <meta name="twitter:card" content="summary">
+    <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Ernest Studio | Creative Direction & CGI">
     <meta name="twitter:description" content="Ernest is a global creative direction and CGI studio. For brands, cultural institutions, and artists. We create still and moving images, design spaces, craft campaigns, and manufacture objects.">
       <!-- Favicon -->
@@ -122,9 +122,66 @@
             color: inherit;
             text-decoration: none;
         }
-    </style>
+
+.typing-line { position: relative; }
+.typing-line::after {
+  content: "";
+  display: inline-block;
+  width: 1px;
+  height: 1em;
+  background: currentColor;
+  margin-left: 2px;
+  animation: blink-caret 0.75s step-end infinite;
+  vertical-align: -0.15em;
+}
+
+/* x-height caret for the typed paragraph */
+#text p { position: relative; }
+#text p::after {
+  content: "";
+  display: inline-block;
+  width: 0.80px;
+  height: calc(var(--cap-approx) + var(--desc));                 /* match the font's x-height */
+  background: currentColor;
+  margin-left: 2px;
+  animation: blink-caret 0.75s step-end infinite;
+  vertical-align: calc(var(--desc) * -1 + 0.05em);      /* slight optical alignment */
+}
+
+/* caret: cap-height with fallback, scoped to #text > p */
+#text p { position: relative; }
+#text p::after {
+  content: "";
+  display: inline-block;
+  width: 0.80px;
+  height: calc(var(--cap-approx) + var(--desc));              /* fallback for older browsers */
+  background: currentColor;
+  margin-left: 2px;
+  animation: caret-blink 0.75s steps(1, end) infinite;
+  vertical-align: calc(var(--desc) * -1 + 0.05em);
+}
+@supports (height: 1cap) {
+  #text p::after { height: calc(1cap + var(--desc)); 
+  vertical-align: calc(var(--desc) * -1 + 0.05em);
+  width: 0.80px;
+
+  background: currentColor;
+} /* exact capital height */
+}
+@keyframes caret-blink {
+  0%, 100% { opacity: 0; }
+  50%     { opacity: 1; }
+}
+
+#text { --desc: 0.22em; --cap-approx: 0.72em; }
+</style>
+<link rel="canonical" href="https://ernest.place/">
+<meta name="robots" content="index, follow">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "name": "Ernest", "url": "https://ernest.place/", "description": "Ernest is a global creative direction and CGI studio. For brands, cultural institutions, and artists. We create still and moving images, design spaces, craft campaigns, and manufacture objects."}</script>
+<meta property="og:url" content="https://ernest.place/">
 </head>
 <body>
+<noscript><p>Ernest is a global creative direction and CGI studio. For brands, cultural institutions, and artists. We create still and moving images, design spaces, craft campaigns, and manufacture objects.</p></noscript>
     <div class="centered-text" id="text">
         <p>Ernest is a global creative direction and CGI studio. For brands, cultural institutions, and artists. We create still and moving images, design spaces, craft campaigns, and manufacture objects.</p>
     </div>
@@ -247,7 +304,6 @@
                         } else {
                             currentP.textContent = currentText.substring(0, currentChar + 1);
                         }
-                        currentP.style.borderRight = '1px solid currentColor';
                         currentChar++;
                         typingTimeout = setTimeout(type, 30); // Fast typing speed
                     } else {
@@ -257,7 +313,6 @@
                         } else {
                             currentP.textContent = currentText;
                         }
-                        currentP.style.borderRight = 'none';
                         currentLine++;
                         currentChar = 0;
                         typingTimeout = setTimeout(() => {
