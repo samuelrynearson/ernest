@@ -1,173 +1,644 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Loop Timer with Beep</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 40px;
-      background-color: #f4f4f4;
-    }
-    input, button {
-      font-size: 18px;
-      padding: 10px;
-      margin: 10px;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ernest Studio | Creative Direction & CGI</title>
+    <meta name="description" content="Ernest is a global creative direction and CGI studio. For brands, cultural institutions, and artists. We create still and moving images, design spaces, craft campaigns, and manufacture objects.">
+    <meta property="og:title" content="Ernest Studio | Creative Direction & CGI">
+    <meta property="og:description" content="Ernest is a global creative direction and CGI studio. For brands, cultural institutions, and artists. We create still and moving images, design spaces, craft campaigns, and manufacture objects.">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Ernest Studio | Creative Direction & CGI">
+    <meta name="twitter:description" content="Ernest is a global creative direction and CGI studio. For brands, cultural institutions, and artists. We create still and moving images, design spaces, craft campaigns, and manufacture objects.">
+      <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/ernest_favicon.png">
+    <style>
+        /* Import and define the IBM Plex Sans font */
+        @font-face {
+            font-family: 'IBM Plex Sans';
+            src: url('https://fonts.gstatic.com/s/ibmplexsans/v19/zYXgKVElMYYaJe8bpLHnCwDKhdXeFb5N.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
 
-    input {
-      /*border-radius: 30px;*/
-    }
+        body {
+            margin: 20px;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: calc(100vh - 40px);
+            font-family: 'IBM Plex Sans', Arial, sans-serif;
+            background-color: #d4d4d4;
+            color: #1b1b1c;
+            overflow: hidden;
+            transition: background-color 0.2s ease-out, color 0.2s ease-out;
+        }
 
-    button{
-      background-color: #ffcc00;
-      border-style: none;
-    }
+        /* 1. Define the fade-in animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
 
-    .timer {
-      /*font-size: 28px;*/
-      margin: 20px 0;
-    }
+        @keyframes imagefadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
 
-    button  {
-      border-radius: 10px;
-    }
-  </style>
+        .centered-text {
+            font-size: 1.2vh;
+            font-weight: normal;
+            text-align: center;
+            padding: 20px;
+            max-width: 60%;
+            position: relative;
+            z-index: 2;
+            /* 2. Apply the animation to the class */
+            animation: fadeIn .75s ease-in;
+            display: inline-block;
+            width: auto;
+        }
+
+        .square {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            transition: all 0.2s ease-out;
+            z-index: 10;
+            border-radius: 0;
+            overflow: hidden;
+        }
+
+        .square img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            animation: imagefadeIn 0.5s ease-out;
+        }
+
+        body.dark {
+            background-color: #1b1b1c;
+            color: #d4d4d4;
+        }
+
+        .typewriter {
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 2px solid;
+            animation: typing 2s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: currentColor; }
+        }
+
+        .typing-line {
+            overflow: hidden;
+            white-space: nowrap;
+            width: 0;
+            border-right: 1px solid currentColor;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+.typing-line { position: relative; }
+.typing-line::after {
+  content: "";
+  display: inline-block;
+  width: 1px;
+  height: 1em;
+  background: currentColor;
+  margin-left: 2px;
+  animation: blink-caret 0.75s step-end infinite;
+  vertical-align: -0.15em;
+}
+
+/* x-height caret for the typed paragraph */
+#text p { position: relative; }
+#text p::after {
+  content: "";
+  display: inline-block;
+  width: 0.80px;
+  height: calc(var(--cap-approx) + var(--desc));                 /* match the font's x-height */
+  background: currentColor;
+  margin-left: 2px;
+  animation: blink-caret 0.75s step-end infinite;
+  vertical-align: calc(var(--desc) * -1 + 0.05em);      /* slight optical alignment */
+}
+
+/* caret: cap-height with fallback, scoped to #text > p */
+#text p { position: relative; }
+#text p::after {
+  content: "";
+  display: inline-block;
+  width: 0.80px;
+  height: calc(var(--cap-approx) + var(--desc));              /* fallback for older browsers */
+  background: currentColor;
+  margin-left: 2px;
+  animation: caret-blink 0.75s steps(1, end) infinite;
+  vertical-align: calc(var(--desc) * -1 + 0.05em);
+}
+@supports (height: 1cap) {
+  #text p::after { height: calc(1cap + var(--desc)); 
+  vertical-align: calc(var(--desc) * -1 + 0.05em);
+  width: 0.80px;
+
+  background: currentColor;
+} /* exact capital height */
+}
+@keyframes caret-blink {
+  0%, 100% { opacity: 0; }
+  50%     { opacity: 1; }
+}
+
+#text { --desc: 0.22em; --cap-approx: 0.72em; }
+</style>
+<link rel="canonical" href="https://ernest.place/">
+<meta name="robots" content="index, follow">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "name": "Ernest", "url": "https://ernest.place/", "description": "Ernest is a global creative direction and CGI studio. For brands, cultural institutions, and artists. We create still and moving images, design spaces, craft campaigns, and manufacture objects."}</script>
+<meta property="og:url" content="https://ernest.place/">
 </head>
 <body>
-  <!-- <h1>Loop Timer</h1> -->
+<noscript><p>Ernest is a global creative direction and CGI studio. For brands, cultural institutions, and artists. We create still and moving images, design spaces, craft campaigns, and manufacture objects.</p></noscript>
+    <div class="centered-text" id="text">
+        <p>Ernest is a global creative direction and CGI studio. For brands, cultural institutions, and artists. We create still and moving images, design spaces, craft campaigns, and manufacture objects.</p>
+    </div>
+    <div class="square" id="square1"><img src="" alt=""></div>
+    <div class="square" id="square2"><img src="" alt=""></div>
+    <div class="square" id="square3"><img src="" alt=""></div>
 
-  <label>Total Time (minutes): <input type="number" id="totalTime" min="1" value="5"></label><br>
-  <label>Repetitions: <input type="number" id="repetitions" min="1" value="5"></label><br>
-  <button onclick="startTimer()">Start</button>
-  <button onclick="pauseResumeTimer()">Pause</button>
+    <script>
+        const squares = [
+            document.getElementById('square1'),
+            document.getElementById('square2'),
+            document.getElementById('square3')
+        ];
+        const body = document.body;
+        const text = document.getElementById('text');
+        let isToggled = false;
+        let typingTimeout;
+        let isAnimating = true;
 
-  <div class="timer">
-    <div>Total Time Left: <span id="totalTimer">00:00:00.00</span></div>
-    <div>Burpee Count <span id="currentRep">0</span> / <span id="totalReps">0</span></div>
-    <div>Loop Time Left: <span id="loopTimer">00:00:00.00</span></div>
-  </div>
+        // Expanded image pool - you can replace these with your actual image URLs
+        const imagePool = [
+            'images/ernest_thumbnails.jpg',
+            'images/ernest_thumbnails2.jpg',
+            'images/ernest_thumbnails3.jpg',
+            'images/ernest_thumbnails4.jpg',
+            'images/ernest_thumbnails5.jpg',
+            'images/ernest_thumbnails6.jpg',
+            'images/ernest_thumbnails7.jpg',
+            'images/ernest_thumbnails8.jpg',
+            'images/ernest_thumbnails9.jpg',
+            'images/ernest_thumbnails10.jpg',
+            'images/ernest_thumbnails11.jpg',
+            'images/ernest_thumbnails12.jpg',
+            'images/ernest_thumbnails13.jpg',
+            'images/ernest_thumbnails14.jpg',
+            'images/ernest_thumbnails15.jpg',
+            'images/ernest_thumbnails16.jpg',
+        ];
 
-  <script>
-    let totalDuration = 0;
-    let loopDuration = 0;
-    let repetitions = 0;
-    let currentRep = 0;
+        // Keep track of currently used images
+        let currentImages = [];
 
-    let totalEndTime = 0;
-    let loopEndTime = 0;
+        // Text sequences
+        const studioText = [
+            "Ernest is a global creative direction and CGI studio.",
+            "For brands, cultural institutions, and artists.",
+            "We create still and moving images, design spaces, craft campaigns, and manufacture objects.",
+            "Ernest is led by Diego Grandry, Samuel Rynearson, and Leïth Benkhedda"
+        ];
 
-    let paused = false;
-    let pauseTime = 0;
-    let interval;
+        const contactText = [
+            '<a href="mailto:hello@ernest.place">hello@ernest.place</a>',
+            '<a href="http://www.instagram.com/ernest.place" target="_blank">instagram.com/ernest.place</a>'
+        ];
 
-    // Track beeps per repetition
-    let beepTracker = { 2: false, 1: false, 0: false };
+        // Function to get random unique images
+        function getRandomUniqueImages(count) {
+            const availableImages = imagePool.filter(img => !currentImages.includes(img));
+            
+            // If we don't have enough available images, reset the pool
+            if (availableImages.length < count) {
+                currentImages = [];
+                return getRandomUniqueImages(count);
+            }
+            
+            const selectedImages = [];
+            for (let i = 0; i < count; i++) {
+                const randomIndex = Math.floor(Math.random() * availableImages.length);
+                const selectedImage = availableImages.splice(randomIndex, 1)[0];
+                selectedImages.push(selectedImage);
+            }
+            
+            return selectedImages;
+        }
 
-    function startTimer() {
-      clearInterval(interval);
-      paused = false;
+        function updateSquareImages() {
+            const newImages = getRandomUniqueImages(3);
+            currentImages = [...newImages];
+            
+            squares.forEach((square, index) => {
+                const img = square.querySelector('img');
+                // Synchronize with square movement timing
+                setTimeout(() => {
+                    img.src = newImages[index];
+                }, index * 67); // Matches the 0.2s / 3 squares timing
+            });
+        }
 
-      const totalMinutes = parseFloat(document.getElementById('totalTime').value);
-      repetitions = parseInt(document.getElementById('repetitions').value);
+        function typeText(lines, callback) {
+            let currentLine = 0;
+            let currentChar = 0;
+            
+            // Create or get the paragraph element
+            if (!text.querySelector('p')) {
+                text.innerHTML = '<p class="typing-line"></p>';
+            }
+            
+            function type() {
+                const currentP = text.querySelector('p');
+                
+                if (currentLine < lines.length) {
+                    const currentText = lines[currentLine];
+                    
+                    if (currentChar < currentText.length) {
+                        // For HTML content, we need to handle it differently
+                        if (currentText.includes('<a href')) {
+                            // Create a temporary div to parse HTML
+                            const tempDiv = document.createElement('div');
+                            tempDiv.innerHTML = currentText;
+                            const linkElement = tempDiv.firstChild;
+                            const linkText = linkElement.textContent;
+                            
+                            if (currentChar < linkText.length) {
+                                // Show partial text as link
+                                const partialText = linkText.substring(0, currentChar + 1);
+                                currentP.innerHTML = `<a href="${linkElement.href}" ${linkElement.target ? `target="${linkElement.target}"` : ''}>${partialText}</a>`;
+                            } else {
+                                currentP.innerHTML = currentText;
+                            }
+                        } else {
+                            currentP.textContent = currentText.substring(0, currentChar + 1);
+                        }
+                        currentChar++;
+                        typingTimeout = setTimeout(type, 30); // Fast typing speed
+                    } else {
+                        // Finished current line, set final content
+                        if (currentText.includes('<a href')) {
+                            currentP.innerHTML = currentText;
+                        } else {
+                            currentP.textContent = currentText;
+                        }
+                        currentLine++;
+                        currentChar = 0;
+                        typingTimeout = setTimeout(() => {
+                            // Clear content but keep the paragraph element
+                            currentP.innerHTML = '';
+                            currentP.textContent = '';
+                            type();
+                        }, 1500); // Pause before clearing and starting next line
+                    }
+                } else {
+                    // All lines typed, restart after pause
+                    currentLine = 0;
+                    currentChar = 0;
+                    typingTimeout = setTimeout(() => {
+                        currentP.innerHTML = '';
+                        currentP.textContent = '';
+                        type();
+                    }, 1500);
+                }
+            }
+            
+            type();
+        }
 
-      totalDuration = totalMinutes * 60 * 1000;
-      loopDuration = totalDuration / repetitions;
+        function startTypingLoop(lines) {
+            clearTimeout(typingTimeout);
+            typeText(lines);
+        }
 
-      currentRep = 1;
-      totalEndTime = Date.now() + totalDuration;
-      loopEndTime = Date.now() + loopDuration;
+        // Function to get valid checkerboard positions on edges
+        function getCheckerboardEdgePosition(isLightMode, currentPosition = null, excludePositions = []) {
+            const edges = ['top', 'right', 'bottom', 'left'];
+            const validPositions = [];
+            
+            // Calculate grid dimensions
+            const gridWidth = Math.floor(window.innerWidth / 20);
+            const gridHeight = Math.floor(window.innerHeight / 20);
+            
+            // Determine current edge if we have a current position
+            let currentEdge = null;
+            if (currentPosition) {
+                if (currentPosition.top === '0px') currentEdge = 'top';
+                else if (currentPosition.right === '0px') currentEdge = 'right';
+                else if (currentPosition.bottom === '0px') currentEdge = 'bottom';
+                else if (currentPosition.left === '0px') currentEdge = 'left';
+            }
+            
+            // If we have a current edge, prioritize adjacent edges for smoother movement
+            let edgesToCheck = edges;
+            if (currentEdge) {
+                const adjacentEdges = {
+                    'top': ['top', 'left', 'right'],
+                    'right': ['right', 'top', 'bottom'],
+                    'bottom': ['bottom', 'left', 'right'],
+                    'left': ['left', 'top', 'bottom']
+                };
+                edgesToCheck = adjacentEdges[currentEdge];
+            }
+            
+            edgesToCheck.forEach(edge => {
+                switch(edge) {
+                    case 'top':
+                        for (let x = 1; x < gridWidth - 1; x++) {
+                            const isWhiteSquare = (x + 0) % 2 === 0;
+                            if ((isLightMode && isWhiteSquare) || (!isLightMode && !isWhiteSquare)) {
+                                const pos = {
+                                    top: '0px',
+                                    left: (x * 20) + 'px',
+                                    right: 'auto',
+                                    bottom: 'auto',
+                                    edge: 'top'
+                                };
+                                validPositions.push(pos);
+                            }
+                        }
+                        break;
+                    case 'right':
+                        for (let y = 1; y < gridHeight - 1; y++) {
+                            const isWhiteSquare = ((gridWidth - 1) + y) % 2 === 0;
+                            if ((isLightMode && isWhiteSquare) || (!isLightMode && !isWhiteSquare)) {
+                                const pos = {
+                                    top: (y * 20) + 'px',
+                                    left: 'auto',
+                                    right: '0px',
+                                    bottom: 'auto',
+                                    edge: 'right'
+                                };
+                                validPositions.push(pos);
+                            }
+                        }
+                        break;
+                    case 'bottom':
+                        for (let x = 1; x < gridWidth - 1; x++) {
+                            const isWhiteSquare = (x + (gridHeight - 1)) % 2 === 0;
+                            if ((isLightMode && isWhiteSquare) || (!isLightMode && !isWhiteSquare)) {
+                                const pos = {
+                                    top: 'auto',
+                                    left: (x * 20) + 'px',
+                                    right: 'auto',
+                                    bottom: '0px',
+                                    edge: 'bottom'
+                                };
+                                validPositions.push(pos);
+                            }
+                        }
+                        break;
+                    case 'left':
+                        for (let y = 1; y < gridHeight - 1; y++) {
+                            const isWhiteSquare = (0 + y) % 2 === 0;
+                            if ((isLightMode && isWhiteSquare) || (!isLightMode && !isWhiteSquare)) {
+                                const pos = {
+                                    top: (y * 20) + 'px',
+                                    left: '0px',
+                                    right: 'auto',
+                                    bottom: 'auto',
+                                    edge: 'left'
+                                };
+                                validPositions.push(pos);
+                            }
+                        }
+                        break;
+                }
+            });
+            
+            // Filter out current position and excluded positions
+            const filteredPositions = validPositions.filter(pos => {
+                // Check if it's the current position
+                if (currentPosition && 
+                    pos.top === currentPosition.top && 
+                    pos.left === currentPosition.left && 
+                    pos.right === currentPosition.right && 
+                    pos.bottom === currentPosition.bottom) {
+                    return false;
+                }
+                
+                // Check if it's in excluded positions
+                return !excludePositions.some(excludePos => 
+                    pos.top === excludePos.top && 
+                    pos.left === excludePos.left && 
+                    pos.right === excludePos.right && 
+                    pos.bottom === excludePos.bottom
+                );
+            });
+            
+            // Return random valid position
+            if (filteredPositions.length > 0) {
+                return filteredPositions[Math.floor(Math.random() * filteredPositions.length)];
+            }
+            
+            // Fallback to any valid position if filtered list is empty
+            if (validPositions.length > 0) {
+                return validPositions[Math.floor(Math.random() * validPositions.length)];
+            }
+            
+            // Last resort fallback
+            return {
+                top: '0px',
+                left: '40px',
+                right: 'auto',
+                bottom: 'auto',
+                edge: 'top'
+            };
+        }
 
-      beepTracker = { 2: false, 1: false, 0: false };
+        // Function to animate square along edges step by step
+        function slideSquareAlongEdges(square, currentPos, targetPos) {
+            // Parse current position
+            const getCurrentEdgeInfo = (pos) => {
+                if (pos.top === '0px') return { edge: 'top', coord: parseInt(pos.left) };
+                if (pos.right === '0px') return { edge: 'right', coord: parseInt(pos.top) };
+                if (pos.bottom === '0px') return { edge: 'bottom', coord: parseInt(pos.left) };
+                if (pos.left === '0px') return { edge: 'left', coord: parseInt(pos.top) };
+                return null;
+            };
 
-      document.getElementById('totalReps').textContent = repetitions;
-      document.getElementById('currentRep').textContent = currentRep;
+            const current = getCurrentEdgeInfo(currentPos);
+            const target = getCurrentEdgeInfo(targetPos);
+            
+            if (!current || !target) {
+                // Fallback to direct positioning
+                square.style.top = targetPos.top;
+                square.style.left = targetPos.left;
+                square.style.right = targetPos.right;
+                square.style.bottom = targetPos.bottom;
+                return;
+            }
 
-      interval = setInterval(updateTimers, 10);
-      console.log(loopDuration);
-    }
+            // If same edge, slide directly
+            if (current.edge === target.edge) {
+                square.style.top = targetPos.top;
+                square.style.left = targetPos.left;
+                square.style.right = targetPos.right;
+                square.style.bottom = targetPos.bottom;
+                return;
+            }
 
-    function pauseResumeTimer() {
-      if (!interval) return;
+            // Different edges - need to slide through corner
+            const gridWidth = window.innerWidth;
+            const gridHeight = window.innerHeight;
 
-      if (!paused) {
-        paused = true;
-        clearInterval(interval);
-        pauseTime = Date.now();
-      } else {
-        const now = Date.now();
-        const pauseOffset = now - pauseTime;
+            // Determine which corner to go through
+            let cornerPos;
+            
+            if (current.edge === 'top' && target.edge === 'right') {
+                cornerPos = { top: '0px', left: 'auto', right: '0px', bottom: 'auto' }; // top-right
+            } else if (current.edge === 'top' && target.edge === 'left') {
+                cornerPos = { top: '0px', left: '0px', right: 'auto', bottom: 'auto' }; // top-left
+            } else if (current.edge === 'top' && target.edge === 'bottom') {
+                // Choose closer corner
+                const currentX = parseInt(currentPos.left);
+                const targetX = parseInt(targetPos.left);
+                if (Math.abs(currentX) < Math.abs(gridWidth - currentX)) {
+                    cornerPos = { top: '0px', left: '0px', right: 'auto', bottom: 'auto' }; // top-left
+                } else {
+                    cornerPos = { top: '0px', left: 'auto', right: '0px', bottom: 'auto' }; // top-right
+                }
+            } else if (current.edge === 'right' && target.edge === 'bottom') {
+                cornerPos = { top: 'auto', left: 'auto', right: '0px', bottom: '0px' }; // bottom-right
+            } else if (current.edge === 'right' && target.edge === 'left') {
+                // Choose closer corner
+                const currentY = parseInt(currentPos.top);
+                if (currentY < gridHeight / 2) {
+                    cornerPos = { top: '0px', left: 'auto', right: '0px', bottom: 'auto' }; // top-right
+                } else {
+                    cornerPos = { top: 'auto', left: 'auto', right: '0px', bottom: '0px' }; // bottom-right
+                }
+            } else if (current.edge === 'right' && target.edge === 'top') {
+                cornerPos = { top: '0px', left: 'auto', right: '0px', bottom: 'auto' }; // top-right
+            } else if (current.edge === 'bottom' && target.edge === 'left') {
+                cornerPos = { top: 'auto', left: '0px', right: 'auto', bottom: '0px' }; // bottom-left
+            } else if (current.edge === 'bottom' && target.edge === 'right') {
+                cornerPos = { top: 'auto', left: 'auto', right: '0px', bottom: '0px' }; // bottom-right
+            } else if (current.edge === 'bottom' && target.edge === 'top') {
+                // Choose closer corner
+                const currentX = parseInt(currentPos.left);
+                if (currentX < gridWidth / 2) {
+                    cornerPos = { top: 'auto', left: '0px', right: 'auto', bottom: '0px' }; // bottom-left
+                } else {
+                    cornerPos = { top: 'auto', left: 'auto', right: '0px', bottom: '0px' }; // bottom-right
+                }
+            } else if (current.edge === 'left' && target.edge === 'top') {
+                cornerPos = { top: '0px', left: '0px', right: 'auto', bottom: 'auto' }; // top-left
+            } else if (current.edge === 'left' && target.edge === 'bottom') {
+                cornerPos = { top: 'auto', left: '0px', right: 'auto', bottom: '0px' }; // bottom-left
+            } else if (current.edge === 'left' && target.edge === 'right') {
+                // Choose closer corner
+                const currentY = parseInt(currentPos.top);
+                if (currentY < gridHeight / 2) {
+                    cornerPos = { top: '0px', left: '0px', right: 'auto', bottom: 'auto' }; // top-left
+                } else {
+                    cornerPos = { top: 'auto', left: '0px', right: 'auto', bottom: '0px' }; // bottom-left
+                }
+            }
 
-        totalEndTime += pauseOffset;
-        loopEndTime += pauseOffset;
+            // First move to corner, then to target
+            square.style.top = cornerPos.top;
+            square.style.left = cornerPos.left;
+            square.style.right = cornerPos.right;
+            square.style.bottom = cornerPos.bottom;
 
-        paused = false;
-        interval = setInterval(updateTimers, 10);
-      }
-    }
+            // After reaching corner, move to target
+            setTimeout(() => {
+                square.style.top = targetPos.top;
+                square.style.left = targetPos.left;
+                square.style.right = targetPos.right;
+                square.style.bottom = targetPos.bottom;
+            }, 200); // Wait for first transition to complete
+        }
 
-    function updateTimers() {
-      const now = Date.now();
+        // Function to position all squares with synchronized timing
+        function positionSquares(isLightMode) {
+            const occupiedPositions = [];
+            
+            squares.forEach((square, index) => {
+                // Get current position
+                const currentPosition = {
+                    top: square.style.top,
+                    left: square.style.left,
+                    right: square.style.right,
+                    bottom: square.style.bottom
+                };
+                
+                const targetPosition = getCheckerboardEdgePosition(isLightMode, currentPosition, occupiedPositions);
+                occupiedPositions.push(targetPosition);
+                
+                // Synchronized timing with color transition (0.2s total / 3 squares)
+                setTimeout(() => {
+                    // If we have a current position, slide along edges
+                    if (currentPosition.top || currentPosition.left || currentPosition.right || currentPosition.bottom) {
+                        slideSquareAlongEdges(square, currentPosition, targetPosition);
+                    } else {
+                        // First positioning, direct placement
+                        square.style.top = targetPosition.top;
+                        square.style.left = targetPosition.left;
+                        square.style.right = targetPosition.right;
+                        square.style.bottom = targetPosition.bottom;
+                    }
+                }, index * 67); // 200ms / 3 squares = ~67ms per square
+            });
+        }
 
-      let totalRemaining = totalEndTime - now;
-      let loopRemaining = loopEndTime - now;
+        // Add click event to the entire body
+        body.addEventListener('click', function() {
+            if (!isToggled) {
+                // Move to dark mode
+                body.classList.add('dark');
+                positionSquares(false); // Dark mode = black squares
+                updateSquareImages();
+                startTypingLoop(contactText);
+                isToggled = true;
+            } else {
+                // Move back to light mode
+                body.classList.remove('dark');
+                positionSquares(true); // Light mode = white squares
+                updateSquareImages();
+                startTypingLoop(studioText);
+                isToggled = false;
+            }
+        });
 
-      if (totalRemaining <= 0) {
-        totalRemaining = 0;
-        loopRemaining = 0;
-        clearInterval(interval);
-      }
-
-      // Handle loop reset
-      if (loopRemaining <= 0 && currentRep < repetitions) {
-        currentRep++;
-        loopEndTime = Date.now() + loopDuration;
-        loopRemaining = loopDuration;
-        beepTracker = { 2: false, 1: false, 0: false };
-        document.getElementById('currentRep').textContent = currentRep;
-      }
-
-      // Beep on last 3, 2, 1 seconds
-      const secondsLeft = Math.floor(loopRemaining / 1000);
-      if (secondsLeft <= 2 && secondsLeft >= 0 && !beepTracker[secondsLeft]) {
-        playBeep();
-        beepTracker[secondsLeft] = true;
-      }
-
-      document.getElementById('totalTimer').textContent = formatTime(totalRemaining);
-      document.getElementById('loopTimer').textContent = formatTime(loopRemaining);
-    }
-
-    function formatTime(ms) {
-      const hours = Math.floor(ms / (1000 * 60 * 60));
-      const minutes = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((ms % (1000 * 60)) / 1000);
-      const deciMs = Math.floor((ms % 1000) / 10); // get 2 decimals (e.g., 523 -> 52)
-
-      return (
-        String(hours).padStart(2, '0') + ':' +
-        String(minutes).padStart(2, '0') + ':' +
-        String(seconds).padStart(2, '0') + '.' +
-        String(deciMs).padStart(2, '0')
-      );
-    }
-
-    function playBeep() {
-      const ctx = new (window.AudioContext || window.webkitAudioContext)();
-      const oscillator = ctx.createOscillator();
-      const gainNode = ctx.createGain();
-
-      oscillator.type = 'sine';
-      oscillator.frequency.setValueAtTime(800, ctx.currentTime); // Hz
-      gainNode.gain.setValueAtTime(0.2, ctx.currentTime); // volume
-
-      oscillator.connect(gainNode);
-      gainNode.connect(ctx.destination);
-
-      oscillator.start();
-      oscillator.stop(ctx.currentTime + 0.15); // 150 ms beep
-    }
-  </script>
+        // Initialize squares position and images on load (start in light mode)
+        window.addEventListener('load', () => {
+            positionSquares(true);
+            updateSquareImages();
+            startTypingLoop(studioText);
+        });
+    </script>
 </body>
 </html>
